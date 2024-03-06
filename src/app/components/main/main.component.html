@@ -1,0 +1,111 @@
+<div *ngIf="!(user === '')" class="items-center text-center content-center">
+  <div class="flex justify-center items-center">
+    <div class="flex justify-center items-center flex-col lg:flex-row m-3 p-5 bg-gray-800 rounded-2xl">
+    <div class="bg-orange-100 rounded-xl">
+      <canvas id="graph" width="500" height="500" (click)="clickPoint($event)"></canvas>
+    </div>
+    <div class="m-5">
+      <form [formGroup]="pointForm" (ngSubmit)="sendPoint(value_x.toString(), y.value)" class="flex flex-col">
+        <h3>Select x. Selected: {{value_x}} </h3>
+        <div class="flex flex-row sm:flex-col justify-center items-center">
+          <div>
+            <label class="p-0.5 sm:text-xl" for="x-3">-3</label>
+            <input class="w-5 h-5 m-0.5 sm:w-7 sm:h-7 border-1 rounded-sm border-solid bg-orange-400 hover:bg-amber-500 active:bg-orange-300" (click)="setX($event, -3)" id="x-3" type="button" formControlName="x" name="x" value="-3">
+            <label class="p-0.5 sm:text-xl" for="x-2">-2</label>
+            <input class="w-5 h-5 m-0.5 sm:w-7 sm:h-7 border-1 rounded-sm border-solid bg-orange-400 hover:bg-amber-500 active:bg-orange-300" (click)="setX($event, -2)"  id="x-2" type="button" formControlName="x" name="x" value="-2">
+            <label class="p-0.5 sm:text-xl" for="x-1">-1</label>
+            <input class="w-5 h-5 m-0.5 sm:w-7 sm:h-7 border-1 rounded-sm border-solid bg-orange-400 hover:bg-amber-500 active:bg-orange-300"  (click)="setX($event, -1)" id="x-1" type="button" formControlName="x" name="x" value="-1">
+          </div>
+          <div>
+            <label class="p-0.5 sm:p-1 sm:text-xl" for="x0">0</label>
+            <input class="w-5 h-5 m-0.5 sm:m-1 sm:w-7 sm:h-7 border-1 rounded-sm border-solid bg-orange-400 hover:bg-amber-500 active:bg-orange-300"  (click)="setX($event, 0)" id="x0" type="button" formControlName="x" name="x" value="0">
+            <label class="p-0.5 sm:p-1 sm:text-xl" for="x1">1</label>
+            <input class="w-5 h-5 m-0.5 sm:m-1 sm:w-7 sm:h-7 border-1 rounded-sm border-solid bg-orange-400 hover:bg-amber-500 active:bg-orange-300" (click)="setX($event, 1)" id="x1" type="button" formControlName="x" name="x" value="1">
+            <label class="p-0.5 sm:text-xl" for="x2">2</label>
+            <input class="w-5 h-5 m-0.5 sm:m-1 sm:w-7 sm:h-7 border-1 rounded-sm border-solid bg-orange-400 hover:bg-amber-500 active:bg-orange-300" (click)="setX($event, 2)" id="x2" type="button" formControlName="x" name="x" value="2">
+          </div>
+          <div>
+            <label class="sm:p-1 p-0.5 sm:text-xl" for="x3">3</label>
+            <input class="w-5 h-5 m-0.5 sm:m-1 sm:w-7 sm:h-7 border-1 rounded-sm border-solid bg-orange-400 hover:bg-amber-500 active:bg-orange-300" (click)="setX($event, 3)" id="x3" type="button" formControlName="x" name="x" value="3">
+            <label class="sm:p-1 p-0.5 sm:text-xl" for="x4">4</label>
+            <input class="w-5 h-5 m-0.5 sm:m-1 sm:w-7 sm:h-7 border-1 rounded-sm border-solid bg-orange-400 hover:bg-amber-500 active:bg-orange-300" (click)="setX($event, 4)" id="x4" type="button" formControlName="x" name="x" value="4">
+            <label class="p-0.5 sm:text-xl" for="x5">5</label>
+            <input class="w-5 h-5 m-0.5 sm:m-1 sm:w-7 sm:h-7 border-1 rounded-sm border-solid bg-orange-400 hover:bg-amber-500 active:bg-orange-300" (click)="setX($event, 5)" id="x5" type="button" formControlName="x" name="x" value="5">
+          </div>
+        </div>
+        <div class="flex flex-col">
+          <h3>Select y</h3>
+          <input class="rounded-md p-0.5 text-gray-900" type="text" formControlName="y" placeholder="(-3; 5)">
+          <small class="text-red-600" *ngIf="y.errors?.['required'] && (y.touched || y.dirty)">this field must be filled</small>
+          <small class="text-red-600" *ngIf="y.errors?.['pattern'] && (y.touched || y.dirty)">enter valid number format</small>
+          <small class="text-red-600" *ngIf="(y.errors?.['min'] || y.errors?.['max']) && (y.touched || y.dirty)">enter number in given range</small>
+        </div>
+        <h3>Select r. Selected: {{ value_r }}</h3>
+        <div class="flex flex-row sm:flex-col justify-center items-center">
+          <div>
+          <label class="p-0.5 sm:text-xl" for="r-3">-3</label>
+          <input class="w-5 h-5 m-0.5 sm:w-7 sm:h-7 border-1 rounded-sm border-solid bg-orange-400 hover:bg-amber-500 active:bg-orange-300"  (click)="setR($event, -3)" id="r-3" type="button" formControlName="r" name="r" value="-3">
+          <label class="p-0.5 sm:text-xl" for="r-2">-2</label>
+          <input class="w-5 h-5 m-0.5 sm:w-7 sm:h-7 border-1 rounded-sm border-solid bg-orange-400 hover:bg-amber-500 active:bg-orange-300" (click)="setR($event, -2)" id="r-2" type="button" formControlName="r" name="r" value="-2">
+          <label class="p-0.5 sm:text-xl" for="r-1">-1</label>
+          <input class="w-5 h-5 m-0.5 sm:w-7 sm:h-7 border-1 rounded-sm border-solid bg-orange-400 hover:bg-amber-500 active:bg-orange-300"  (click)="setR($event, -1)" id="r-1" type="button" formControlName="r" name="r" value="-1">
+          </div>
+          <div>
+            <label class="p-0.5 sm:p-1 sm:text-xl" for="r0">0</label>
+            <input class="w-5 h-5 m-0.5 sm:m-1 sm:w-7 sm:h-7 border-1 rounded-sm border-solid bg-orange-400 hover:bg-amber-500 active:bg-orange-300" (click)="setR($event, 0)" id="r0" type="button" formControlName="r" name="r" value="0">
+            <label class="p-0.5 sm:p-1 sm:text-xl" for="r1">1</label>
+            <input class="w-5 h-5 m-0.5 sm:m-1 sm:w-7 sm:h-7 border-1 rounded-sm border-solid bg-orange-400 hover:bg-amber-500 active:bg-orange-300" (click)="setR($event, 1)" id="r1" type="button" formControlName="r" name="r" value="1">
+            <label class="p-0.5 sm:p-1 sm:text-xl" for="r2">2</label>
+            <input class="w-5 h-5 m-0.5 sm:m-1 sm:w-7 sm:h-7 border-1 rounded-sm border-solid bg-orange-400 hover:bg-amber-500 active:bg-orange-300" (click)="setR($event, 2)"  id="r2" type="button" formControlName="r" name="r" value="2">
+          </div>
+          <div>
+            <label class="p-0.5 sm:p-1 sm:text-xl" for="r3">3</label>
+            <input class="w-5 h-5 m-0.5 sm:m-1 sm:w-7 sm:h-7 border-1 rounded-sm border-solid bg-orange-400 hover:bg-amber-500 active:bg-orange-300" (click)="setR($event, 3)" id="r3" type="button" formControlName="r" name="r" value="3">
+            <label class="p-0.5 sm:p-1 sm:text-xl" for="r4">4</label>
+            <input class="w-5 h-5 m-0.5 sm:m-1 sm:w-7 sm:h-7 border-1 rounded-sm border-solid bg-orange-400 hover:bg-amber-500 active:bg-orange-300" (click)="setR($event, 4)"  id="r4" type="button" formControlName="r" name="r" value="4">
+            <label class="p-0.5 sm:p-1 sm:text-xl" for="r5">5</label>
+            <input class="w-5 h-5 m-0.5 sm:m-1 sm:w-7 sm:h-7 border-1 rounded-sm border-solid bg-orange-400 hover:bg-amber-500 active:bg-orange-300" (click)="setR($event, 5)" id="r5" type="button" formControlName="r" name="r" value="5">
+          </div>
+        </div>
+        <div class="text-gray-900 flex flex-row justify-center items-center m-2">
+          <input [disabled]="y.invalid" class="w-fit rounded-md p-2 m-2.5 text-center border-1 border-solid bg-orange-400 hover:bg-amber-500 active:bg-orange-300" type="submit" value="Submit">
+          <button class="w-fit rounded-md p-2 m-2.5 text-center border-1 border-solid bg-orange-400 hover:bg-amber-500 active:bg-orange-300" (click)="clearPoints()">Clear</button>
+          <button class="w-fit rounded-md p-2 m-2.5 text-center border-1 border-solid bg-orange-400 hover:bg-amber-500 active:bg-orange-300" (click)="logOut()">Log out</button>
+        </div>
+      </form>
+    </div>
+    </div>
+  </div>
+  <div class="flex justify-center items-center">
+    <div class="flex bg-gray-800 rounded-xl p-2">
+    <table id="OutDataTable">
+      <thead>
+        <tr>
+          <th class="m-0.5">X</th>
+          <th class="m-0.5">Y</th>
+          <th class="m-0.5">R</th>
+          <th class="m-0.5">isHit</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let result of results">
+          <td class="text-center column m-0.5">{{ result.x }}</td>
+          <td class="text-center column m-0.5">{{ result.y}}</td>
+          <td class="text-center column m-0.5">{{ result.r}}</td>
+          <td class="text-center column m-0.5">{{ result.isHit}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  </div>
+</div>
+<div *ngIf="user === ''" class="flex items-center justify-center text-center">
+  <div class="flex flex-col bg-gray-800 p-2 rounded-xl">
+    <h2>You are not authorized</h2>
+    <div class="flex flex-row items-center justify-center">
+      <a class='text-blue-500 mr-2' routerLink="/login">Log in</a>
+      |
+      <a class='text-blue-500 ml-2' routerLink="/register">Register</a>
+    </div>
+  </div>
+</div>

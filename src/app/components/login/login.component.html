@@ -1,0 +1,22 @@
+<div class="flex flex-col justify-center items-center text-center">
+  <div class="flex bg-gray-800 flex-col p-2 rounded-xl">
+  <form [formGroup]="loginForm" (ngSubmit)="submitDetails()">
+    <div class="bg-gray-900 rounded-md p-1.5 flex-col items-center content-center inline-flex">
+      <h2 class="font-bold">Log in</h2>
+      <input formControlName="email" placeholder="email" class="rounded-md p-1 text-gray-900 border-1 bg-amber-100 m-1" type="email" name="login">
+      <small class="block text-red-600" *ngIf="email.invalid && (email.dirty || email.touched)">
+        <div *ngIf="email.errors?.['required']">Email is required</div>
+        <div *ngIf="email.errors?.['email']">Email is not valid</div>
+      </small>
+      <input formControlName="password" placeholder="password" class="rounded-md p-1 text-gray-900 border-1 bg-amber-100 m-1" type="password" name="password">
+      <small class="block text-red-600" *ngIf="password.invalid && (password.dirty || password.touched)">
+        <div *ngIf="password.errors?.['required']">Password is required</div>
+      </small>
+      <input [disabled]="loginForm.invalid" class="text-gray-900 w-fit rounded-md p-2 m-2.5 text-center border-1 border-solid bg-orange-400 hover:bg-amber-500 active:bg-orange-300 border-1" type="submit" value="Log in">
+    </div>
+  </form>
+  <div class="m-2">
+    First time? <a class='text-blue-500' routerLink="/register">Register</a>
+  </div>
+  </div>
+</div>
