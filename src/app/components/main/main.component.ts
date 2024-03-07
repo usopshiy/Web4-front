@@ -32,15 +32,15 @@ export class MainComponent implements AfterViewInit{
   }
   ngOnInit() {
     this.user = this.userService.user;
-    if (this.user !== "") {
-      this.getPoints(this.user);
-    }
   }
 
   ngAfterViewInit() {
     this.canvas = <HTMLCanvasElement> document.getElementById("graph");
     this.ctx = this.canvas.getContext("2d");
     this.draw(1);
+    if (this.user !== "") {
+      this.getPoints(this.user);
+    }
   }
 
   results: Point[] = [];
@@ -59,7 +59,7 @@ export class MainComponent implements AfterViewInit{
     this.apiService.sendPoint(point).subscribe(response =>
     {
       console.log(response)
-      if(!(response === "false")){this.results = <Point[]> response;}
+      if(!(response.toString() === "false")){this.results = <Point[]> response;}
       this.draw(this.value_r);
     }
     )
@@ -69,7 +69,7 @@ export class MainComponent implements AfterViewInit{
 
     this.apiService.clearPoints(this.user).subscribe(response =>
     {
-      if(response === "true") {this.results = [];
+      if(response.toString() === "true") {this.results = [];
         this.draw(this.value_r);
       }
       else {alert("clear failed");}
@@ -91,6 +91,7 @@ export class MainComponent implements AfterViewInit{
   getPoints(email: string): void {
     this.apiService.getPoints(email).subscribe(response => {
       this.results = <Point[]> response;
+      this.checkTableAndDraw();
     })
   }
 
@@ -141,7 +142,9 @@ export class MainComponent implements AfterViewInit{
         this.ctx.fillStyle = "rgba(255, 0, 0, 1)";
       }
 
-      this.ctx.arc(250 + 200 * x / r, 250 - 200 * y/r, 3, 0, 2 * Math.PI);
+      if(r === 0 && y === 0 && x === 0) {
+        this.ctx.arc(250, 250, 3, 0, 2 * Math.PI);
+      } else{this.ctx.arc(250 + 200 * x / r, 250 - 200 * y / r, 3, 0, 2 * Math.PI);}
       this.ctx.closePath();
       this.ctx.fill();
   }
